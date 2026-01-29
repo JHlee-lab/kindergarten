@@ -1,0 +1,7 @@
+# Task List
+
+- [ ] Initialize Vite React project <!-- id: 0 -->
+- [ ] Install dependencies (Tailwind CSS, Lucide React) <!-- id: 1 -->
+- [ ] Configure Tailwind CSS <!-- id: 2 -->
+- [ ] Implement App.jsx with user code <!-- id: 3 -->
+- [ ] Verify application <!-- id: 4 -->
