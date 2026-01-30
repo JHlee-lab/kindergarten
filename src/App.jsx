@@ -1,8 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
-  CheckCircle, Clock, BookOpen, GraduationCap, ChevronRight,
-  MessageCircle, AlertCircle, FileText, Users, Timer,
-  TrendingUp, Award, Landmark, Banknote, ShieldCheck
+  CheckCircle, Clock, BookOpen, GraduationCap,
+  Users, TrendingUp, Award, Landmark, Banknote, ShieldCheck
 } from 'lucide-react';
 
 import koreanKindergartenAdmin from './assets/korean_kindergarten_admin.png';
@@ -12,13 +11,7 @@ import koreaEducationOffice from './assets/korea_education_office.png';
 import koreanKindergartenClassroom from './assets/korean_kindergarten_classroom.png';
 
 const App = () => {
-  const [submitted, setSubmitted] = useState(false);
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [errorMsg, setErrorMsg] = useState('');
   const [benefitDates, setBenefitDates] = useState({ start: '', end: '' });
-
-  // TODO: 여기에 Google Apps Script 배포 URL을 입력하세요.
-  const GOOGLE_SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbw-JqNCZ5gvyhvAUMHGCH9rx1J9pLW91yIXNscjN-REAbqBT9484jxc4l-8qmMtA0M/exec';
 
   // 알림 목록 상태 (최대 5개 적재)
   const [notifications, setNotifications] = useState([]);
@@ -100,50 +93,6 @@ const App = () => {
       clearInterval(notificationInterval);
     };
   }, []);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    if (isSubmitting) return;
-
-    if (GOOGLE_SCRIPT_URL === 'YOUR_GOOGLE_SCRIPT_WEB_APP_URL') {
-      alert('개발자 설정을 완료해주세요 (GOOGLE_SCRIPT_URL)');
-      return;
-    }
-
-    setIsSubmitting(true);
-    setErrorMsg('');
-
-    const formData = new FormData(e.target);
-    const data = {
-      name: formData.get('name'),
-      phone: formData.get('phone'),
-      age: formData.get('age'),
-      callTime: formData.get('callTime')
-    };
-
-    try {
-      const response = await fetch(GOOGLE_SCRIPT_URL, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/x-www-form-urlencoded',
-        },
-        body: new URLSearchParams(data).toString()
-      });
-
-      const result = await response.json();
-
-      if (result.result === 'success') {
-        setSubmitted(true);
-      } else {
-        setErrorMsg('오류가 발생했습니다. 다시 시도해주세요.');
-      }
-    } catch (err) {
-      console.error(err);
-      setErrorMsg('네트워크 오류가 발생했습니다. 잠시 후 다시 시도해주세요.');
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
 
   const formatNum = (num) => num.toString().padStart(2, '0');
 
@@ -383,144 +332,14 @@ const App = () => {
               </div>
             </div>
 
-            <div className="md:w-[60%] p-10">
-              {submitted ? (
-                <div className="h-full flex flex-col items-center justify-center text-center py-10">
-                  <div className="w-24 h-24 bg-green-100 rounded-full flex items-center justify-center mb-8 shadow-inner animate-bounce">
-                    <CheckCircle className="text-green-600" size={48} />
-                  </div>
-                  <h4 className="text-3xl font-black mb-3 italic">신청 성공!</h4>
-                  <p className="text-slate-600 font-bold leading-relaxed">
-                    선착순 혜택 대상자로 선정되셨습니다. <br />
-                    잠시만 기다려주시면 전문 상담사가 <br />
-                    <span className="text-green-600 underline decoration-2 decoration-green-200 underline-offset-4">적중예상문제 수신 안내</span> 전화를 드립니다.
-                  </p>
-
-                  <button
-                    onClick={() => {
-                      window.close();
-                      // Fallback if window.close() is blocked
-                      if (!window.closed) {
-                        alert('브라우저 정책상 탭을 자동으로 닫을 수 없습니다. 상단 X 버튼을 눌러주세요.');
-                      }
-                    }}
-                    className="mt-8 px-8 py-3 bg-slate-100/50 hover:bg-slate-200 text-slate-500 font-bold rounded-xl transition-all text-sm"
-                  >
-                    페이지 나가기
-                  </button>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-6 text-left">
-                  <div className="text-center mb-8">
-                    <p className="text-xs font-black text-slate-400 mb-1 tracking-widest uppercase">Lead Generation</p>
-                    <h4 className="text-2xl font-black text-slate-800 tracking-tight">선착순 지원 받기</h4>
-                  </div>
-
-                  <div className="space-y-4">
-                    <div className="relative">
-                      <input
-                        name="name"
-                        type="text" required placeholder="이름 (성함)"
-                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 py-4 focus:ring-4 focus:ring-green-500/20 focus:border-green-500 transition-all outline-none font-bold"
-                        disabled={isSubmitting}
-                      />
-                    </div>
-                    <div className="relative">
-                      <input
-                        name="phone"
-                        type="tel" required placeholder="연락처 (- 제외)"
-                        className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 py-4 focus:ring-4 focus:ring-green-500/20 focus:border-green-500 transition-all outline-none font-bold"
-                        disabled={isSubmitting}
-                      />
-                    </div>
-                    <div className="grid grid-cols-2 gap-4 text-left">
-                      <div>
-                        <label className="block text-[10px] font-black text-slate-400 mb-1 ml-1 uppercase tracking-tighter">나이 입력</label>
-                        <input
-                          name="age"
-                          type="text"
-                          required
-                          placeholder="23세 ~ 55세만 참여 가능"
-                          className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 py-4 focus:ring-4 focus:ring-green-500/20 focus:border-green-500 transition-all outline-none font-bold placeholder:text-slate-400 placeholder:text-xs md:placeholder:text-sm"
-                          disabled={isSubmitting}
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-[10px] font-black text-slate-400 mb-1 ml-1 uppercase tracking-tighter">통화가능시간</label>
-                        <select name="callTime" defaultValue="상시 통화 가능" className="w-full bg-slate-50 border-2 border-slate-100 rounded-2xl px-6 py-4 focus:ring-4 focus:ring-green-500/20 outline-none font-bold appearance-none" disabled={isSubmitting}>
-                          <option value="상시 통화 가능">상시 통화 가능</option>
-                          <option value="09시 ~ 10시">09시 ~ 10시</option>
-                          <option value="10시 ~ 11시">10시 ~ 11시</option>
-                          <option value="11시 ~ 12시">11시 ~ 12시</option>
-                          <option value="12시 ~ 13시">12시 ~ 13시</option>
-                          <option value="13시 ~ 14시">13시 ~ 14시</option>
-                          <option value="14시 ~ 15시">14시 ~ 15시</option>
-                          <option value="15시 ~ 16시">15시 ~ 16시</option>
-                          <option value="16시 ~ 17시">16시 ~ 17시</option>
-                          <option value="17시 ~ 18시">17시 ~ 18시</option>
-                          <option value="18시 ~ 19시">18시 ~ 19시</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
-
-                  {errorMsg && (
-                    <div className="bg-red-50 text-red-600 p-3 rounded-xl text-xs font-bold text-center">
-                      {errorMsg}
-                    </div>
-                  )}
-
-                  <div className="flex items-start gap-3 py-4 border-t border-slate-100">
-                    <input type="checkbox" id="agree" required className="mt-1 w-5 h-5 accent-green-600 rounded cursor-pointer" defaultChecked disabled={isSubmitting} />
-                    <label htmlFor="agree" className="text-[11px] text-slate-500 font-bold leading-tight cursor-pointer">
-                      개인정보 수집 및 활용에 동의하며, 자격증 취득 및 교육 상담을 위한 안내 전화/문자 수신에 동의합니다.
-                    </label>
-                  </div>
-
-                  <button type="submit" disabled={isSubmitting} className="group w-full bg-green-600 hover:bg-green-700 disabled:bg-slate-300 disabled:scale-100 text-white font-black py-6 rounded-[24px] shadow-2xl transition-all transform hover:scale-[1.02] active:scale-95 text-xl flex items-center justify-center gap-3 relative overflow-hidden">
-                    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/20 to-transparent -translate-x-full group-hover:animate-[shimmer_1.5s_infinite]"></div>
-                    {isSubmitting ? '저장 중입니다...' : '적중 예상문제 무료지원 받기'}
-                    {!isSubmitting && <ChevronRight size={24} />}
-                  </button>
-                  <p className="text-center text-[10px] text-slate-400 font-bold italic animate-pulse mb-8">※ 신청기간 이전 조기마감 될 수 있습니다.</p>
-
-                  {/* 상담 절차 섹션 */}
-                  <div className="bg-cyan-50 rounded-3xl p-6 text-center border border-cyan-100">
-                    <h5 className="text-lg font-black text-slate-700 mb-6">상담 절차</h5>
-                    <div className="flex items-center justify-between relative px-2">
-                      {/* Step 1 */}
-                      <div className="flex flex-col items-center gap-2 relative z-10">
-                        <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md border border-cyan-100 text-cyan-600">
-                          <FileText size={24} strokeWidth={2.5} />
-                        </div>
-                        <span className="text-xs font-bold text-slate-600">상담신청</span>
-                      </div>
-
-                      {/* Arrow */}
-                      <ChevronRight className="text-cyan-300" size={24} strokeWidth={3} />
-
-                      {/* Step 2 */}
-                      <div className="flex flex-col items-center gap-2 relative z-10">
-                        <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md border border-cyan-100 text-cyan-600">
-                          <CheckCircle size={24} strokeWidth={2.5} />
-                        </div>
-                        <span className="text-xs font-bold text-slate-600">접수완료</span>
-                      </div>
-
-                      {/* Arrow */}
-                      <ChevronRight className="text-cyan-300" size={24} strokeWidth={3} />
-
-                      {/* Step 3 */}
-                      <div className="flex flex-col items-center gap-2 relative z-10">
-                        <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md border border-cyan-100 text-cyan-600">
-                          <MessageCircle size={24} strokeWidth={2.5} />
-                        </div>
-                        <span className="text-xs font-bold text-slate-600">상담전화</span>
-                      </div>
-                    </div>
-                  </div>
-                </form>
-              )}
+            <div className="md:w-[60%] bg-white">
+              <iframe
+                src='https://marketclub.cafe24.com/form_make/form.php?type=set&pt=wang21cc&it=397&rgb1=%231868E9&rgb2=&rgb3=&rgb4=&rgb5=&rgb6=&btn_name=%C0%FB%C1%DF+%BF%B9%BB%F3%B9%AE%C1%A6+%B9%AB%B7%E1%C1%F6%BF%F8+%B9%DE%B1%E2&tracking_gubun=&tracking_code=&tracking_label='
+                width='100%'
+                height='660px'
+                frameBorder='0'
+                title="Application Form"
+              ></iframe>
             </div>
           </div>
         </div>
