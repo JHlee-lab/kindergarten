@@ -1,7 +1,8 @@
 import React, { useState, useEffect, useRef } from 'react';
 import {
   CheckCircle, Clock, BookOpen, GraduationCap,
-  Users, TrendingUp, Award, Landmark, Banknote, ShieldCheck
+  Users, TrendingUp, Award, Landmark, Banknote, ShieldCheck,
+  FileText, MessageCircle, ChevronRight
 } from 'lucide-react';
 
 import koreanKindergartenAdmin from './assets/korean_kindergarten_admin.png';
@@ -130,7 +131,7 @@ const App = () => {
       </div>
 
       {/* Spacer to prevent content overlap with fixed header */}
-      <div className="h-[100px] md:h-[80px] bg-slate-950"></div>
+      <div className="h-[140px] md:h-[80px] bg-slate-950"></div>
 
       {/* Added Benefit Emphasis Banner */}
       <div className="bg-slate-900 py-4 md:py-6 border-b border-white/5 relative z-40">
@@ -180,7 +181,7 @@ const App = () => {
               <span className="text-xs md:text-sm font-bold text-slate-600">신문, 뉴스에서도 주목하는 유망 직종!</span>
             </div>
 
-            <h1 className="text-3xl md:text-6xl font-black leading-tight mb-8">
+            <h1 className="text-3xl md:text-6xl font-black leading-tight mb-8 tracking-tight">
               누리과정 확대에 따른 <br />
               <span className="text-green-600 relative inline-block">
                 유치원 행정실무사
@@ -188,7 +189,7 @@ const App = () => {
               </span> 자격 취득하세요!
             </h1>
 
-            <p className="text-lg md:text-2xl font-bold text-slate-700 mb-10 leading-snug">
+            <p className="text-lg md:text-2xl font-bold text-slate-700 mb-10 leading-snug tracking-tight">
               국공립 18만명 & 사립 75만명 영유아 수요 폭발! <br className="hidden md:block" />
               <span className="text-orange-600 font-black">경력 단절 여성분도 충분히 가능합니다!</span>
             </p>
@@ -312,10 +313,10 @@ const App = () => {
           </div>
 
           <div className="bg-white rounded-[40px] shadow-2xl overflow-hidden flex flex-col md:flex-row">
-            <div className="md:w-[40%] bg-slate-950 p-10 text-white flex flex-col justify-between border-b md:border-b-0 md:border-r border-white/5">
+            <div className="md:w-[40%] bg-slate-950 p-10 text-white flex flex-col border-b md:border-b-0 md:border-r border-white/5">
               <div>
                 <div className="inline-block bg-orange-600 text-[10px] font-black px-2 py-0.5 rounded mb-4">지원자 100명 한정</div>
-                <h3 className="text-4xl md:text-5xl font-black mb-10 leading-none text-yellow-400 italic animate-pulse">"이 페이지를 나가면<br />자격증 자료를<br />받을 수 없습니다!"</h3>
+                <h3 className="text-4xl md:text-5xl font-black mb-10 leading-none text-yellow-400 italic animate-blink">"이 페이지를 나가면<br />자격증 자료를<br />받을 수 없습니다!"</h3>
                 <ul className="space-y-6">
                   {/* 강조된 첫 번째 혜택 */}
                   <li className="flex gap-4 text-xl md:text-2xl font-black items-start text-green-400">
@@ -326,7 +327,7 @@ const App = () => {
                   </li>
                 </ul>
               </div>
-              <div className="mt-12 p-4 bg-white/5 rounded-2xl border border-white/10 text-center">
+              <div className="mt-8 p-4 bg-white/5 rounded-2xl border border-white/10 text-center">
                 <p className="text-xs font-bold text-slate-400 mb-2 underline underline-offset-4">남은 신청 가능 인원</p>
                 <p className="text-3xl font-black text-orange-500 font-mono tracking-tighter">{100 - applicantCount}명 남았습니다</p>
               </div>
@@ -336,10 +337,46 @@ const App = () => {
               <iframe
                 src='https://marketclub.cafe24.com/form_make/form.php?type=set&pt=wang21cc&it=397&rgb1=%231868E9&rgb2=&rgb3=&rgb4=&rgb5=&rgb6=&btn_name=%C0%FB%C1%DF+%BF%B9%BB%F3%B9%AE%C1%A6+%B9%AB%B7%E1%C1%F6%BF%F8+%B9%DE%B1%E2&tracking_gubun=&tracking_code=&tracking_label='
                 width='100%'
-                height='660px'
+                height='520px'
                 frameBorder='0'
                 title="Application Form"
               ></iframe>
+
+              {/* 상담 절차 섹션 */}
+              <div className="bg-cyan-50 rounded-3xl p-6 text-center border border-cyan-100 mt-2">
+                <h5 className="text-lg font-black text-slate-700 mb-6">상담 절차</h5>
+                <div className="flex items-center justify-between relative px-2">
+                  {/* Step 1 */}
+                  <div className="flex flex-col items-center gap-2 relative z-10">
+                    <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md border border-cyan-100 text-cyan-600">
+                      <FileText size={24} strokeWidth={2.5} />
+                    </div>
+                    <span className="text-xs font-bold text-slate-600">상담신청</span>
+                  </div>
+
+                  {/* Arrow */}
+                  <ChevronRight className="text-cyan-300" size={24} strokeWidth={3} />
+
+                  {/* Step 2 */}
+                  <div className="flex flex-col items-center gap-2 relative z-10">
+                    <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md border border-cyan-100 text-cyan-600">
+                      <CheckCircle size={24} strokeWidth={2.5} />
+                    </div>
+                    <span className="text-xs font-bold text-slate-600">접수완료</span>
+                  </div>
+
+                  {/* Arrow */}
+                  <ChevronRight className="text-cyan-300" size={24} strokeWidth={3} />
+
+                  {/* Step 3 */}
+                  <div className="flex flex-col items-center gap-2 relative z-10">
+                    <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center shadow-md border border-cyan-100 text-cyan-600">
+                      <MessageCircle size={24} strokeWidth={2.5} />
+                    </div>
+                    <span className="text-xs font-bold text-slate-600">상담전화</span>
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
